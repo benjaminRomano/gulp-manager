@@ -1,0 +1,23 @@
+{
+  "name": "gulp-manager",
+  "main": "./lib/main",
+  "version": "0.1.0",
+  "description": "A short description of your package",
+  "keywords": [
+    "gulp",
+    "manager",
+    "runner"
+  ],
+  "activationCommands": {
+    "atom-workspace": "gulp-manager:toggle"
+  },
+  "repository": "https://github.com/atom/gulp-manager",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+    "ansi-to-html": "^0.3.0",
+    "jquery": "^2.1.4"
+  }
+}

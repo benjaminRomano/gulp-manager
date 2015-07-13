@@ -1,0 +1,73 @@
+// The ui-variables file is provided by base themes provided by Atom.
+//
+// See https://github.com/atom/atom-dark-ui/blob/master/styles/ui-variables.less
+// for a full listing of what's available.
+@import "ui-variables";
+
+gulp-manager-panel {
+  min-height: 200px;
+  max-height: 200px;
+
+}
+
+div[is='gulp-manager-header'] {
+}
+
+#gulpManagerViewContainer {
+  height: 200px;
+  .flex-view {
+    display: flex
+  }
+}
+
+header-button {
+  border: none;
+}
+
+gulp-view {
+    h5 {
+      margin: 0 0 10px 0;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0px;
+
+      li {
+        padding: 0 0px 5px 5px;
+        font-size: 12px;
+      }
+    }
+}
+
+
+output-view {
+  height: 100%;
+  max-height: 100%;
+
+  .task-container {
+    overflow: auto;
+    flex: 0 0 20%;
+    height: 100%;
+    padding-left: 5px;
+    border-right: 1px solid @base-border-color;
+
+    ul {
+      list-style-type: none;
+      padding-left: 10px;
+      font-size: 11px;
+    }
+
+  }
+
+  .output-container {
+    flex: 1;
+    overflow: auto;
+    padding-left: 10px;
+
+    .output {
+      padding: 0;
+      font-size: 10px;
+    }
+  }
+}
