@@ -1,15 +1,19 @@
 class ViewElement extends HTMLElement
-  prepare: (id, visible) ->
+  prepare: (id, @visible) ->
     @.id = 'view-' + id
 
-    @setVisibility(visible)
+    @setActive(@active)
     return @
 
-  setVisibility: (value) ->
+  setActive: (value) ->
+    @active = value
     if value
       this.removeAttribute('hidden')
     else
       this.setAttribute('hidden', true)
+
+  isActive: ->
+    return @active
 
 
   getId: ->

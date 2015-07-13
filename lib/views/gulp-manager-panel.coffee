@@ -1,6 +1,5 @@
-OutputView = require './views/output-view'
-GulpView = require './views/gulp-view'
 GulpManagerHeader = require './header/gulp-manager-header'
+ViewManager = require './views/view-manager'
 {CompositeDisposable} = require 'atom'
 
 class GulpManagerPanel extends HTMLElement
@@ -10,31 +9,47 @@ class GulpManagerPanel extends HTMLElement
 
     @subscriptions = new CompositeDisposable()
 
-    gulpView = new GulpView().prepare(@viewId++, true)
-    @subscriptions.add(gulpView.onDidClick(@createNewOutputView.bind(@)))
+    #@subscriptions.add(gulpView.onDidClick(@createNewOutputView.bind(@)))
 
-    @views = [
-      gulpView
-    ]
+    viewInfo = [{
+      type: 'Gulpfiles',
+      id: @viewId++,
+      active: true
+    }]
 
     buttonInfo = []
-    for view in @views
+    for info in viewInfo
       buttonInfo.push({
-        name: view.name
-        id: view.getId(),
-        active: @views.indexOf(view) == 0
+        name: info.type
+        id: info.id
+        active: info.active
       })
 
+    @viewManager = new ViewManager().prepare(viewInfo)
     @gulpManagerHeader = new GulpManagerHeader().prepare(buttonInfo)
 
-    for button in @gulpManagerHeader.buttons
-      @subscriptions.add(button.onDidClick(@changeView.bind(@)))
+    @viewManager.onGulpfileClicked(@createNewOutputView.bind(@))
+    @gulpManagerHeader.onHeaderButtonClicked(@changeView.bind(@))
 
     @panel = @createPanel()
     @.appendChild(@gulpManagerHeader)
-    @.appendChild(@createViewContainer(@views))
+    @.appendChild(@viewManager)
 
     return @
+
+  createNewOutputView: (gulpfile) ->
+    viewInfo =
+      type: 'Output'
+      gulpfile: gulpfile
+      id: @viewId++
+      active: true
+
+    @viewManager.addView(viewInfo)
+    button = @gulpManagerHeader.addButton('Output', viewInfo.id, true)
+
+  changeView: (id) ->
+    @viewManager.changeView(id)
+
 
   createPanel: ->
     options = item: this,
@@ -44,49 +59,6 @@ class GulpManagerPanel extends HTMLElement
     panel =  atom.workspace.addBottomPanel(options)
     panel.className = 'gulp-manager-panel'
     return panel
-
-
-  createViewContainer: (views) ->
-    viewContainer = document.createElement('div')
-    viewContainer.id = 'gulpManagerViewContainer'
-    viewContainer.className = 'inset-panel'
-    for view in views
-      viewContainer.appendChild(view)
-
-    return viewContainer
-
-  createNewOutputView: (gulpfile) ->
-    viewContainer = document.getElementById('gulpManagerViewContainer')
-
-    id = @viewId++
-
-    for view in @views
-      view.setVisibility(false)
-
-    newView = new OutputView().prepare(gulpfile, id, true)
-    @views.push(newView)
-
-    if not viewContainer
-      @createViewContainer(@views)
-    else
-      viewContainer.appendChild(newView)
-
-    button = @gulpManagerHeader.addButton('Output', id, true)
-    @subscriptions.add(button.onDidClick(@changeView.bind(@)))
-
-  changeView: (id) ->
-    for button in @gulpManagerHeader.buttons
-      if button.getId() == id
-        button.setActive(true)
-      else
-        button.setActive(false)
-
-    for view in @views
-      if view.getId() == id
-        view.setVisibility(true)
-      else
-        view.setVisibility(false)
-    return
 
   destroy: ->
     @subscriptions.dispose()

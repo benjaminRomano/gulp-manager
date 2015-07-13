@@ -7,31 +7,30 @@ class GulpManagerHeader extends HTMLElement
 
     @buttons = []
     @subscriptions = new CompositeDisposable()
+    @emitter = new Emitter()
+
+    @.classList.add('inline-block')
+    @.classList.add('btn-group')
+    @.classList.add('gulp-manager-header')
 
     for info in buttonInfo
-      button = new HeaderButton().prepare(info.name, info.id, info.active)
-      @buttons.push(button)
-      @.classList.add('inline-block')
-      @.classList.add('btn-group')
-      @.classList.add('gulp-manager-header')
-      @.appendChild(button)
-      @subscriptions.add(button.onDidClick(@setActiveButton.bind(@)))
-
-    if @buttons and @buttons.length
-      @setActiveButton(@buttons[0].getId())
-
+      @addButton(info.name, info.id, info.active)
 
     return @
 
   addButton: (name, id, active) ->
-    button = new HeaderButton().prepare(name, id)
+    button = new HeaderButton().prepare(name, id, active)
     @buttons.push(button)
-    @.appendChild(button)
 
-    if active or @buttons.length == 1
+    @subscriptions.add(button.onDidClick((id) =>
+      @setActiveButton(id)
+      @emitter.emit('header:button:clicked', id)
+    ))
+
+    if button.isActive()
       @setActiveButton(id)
 
-    return button
+    @.appendChild(button)
 
   removeButton: (id) ->
     for button in @buttons
@@ -40,9 +39,6 @@ class GulpManagerHeader extends HTMLElement
 
     @buttons = @buttons.filter((b) -> b.getId() != id)
 
-    if @buttons and @buttons.length
-      @setActiveButton(@buttons[0].getId())
-
   setActiveButton: (id) ->
     for button in @buttons
       if button.getId() == String(id)
@@ -50,6 +46,8 @@ class GulpManagerHeader extends HTMLElement
       else
         button.setActive(false)
 
+  onHeaderButtonClicked: (callback) ->
+    return @emitter.on('header:button:clicked', callback)
 
   destroy: ->
     @subscriptions.dispose()

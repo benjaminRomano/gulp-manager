@@ -13,8 +13,9 @@ gulp-manager-panel {
 div[is='gulp-manager-header'] {
 }
 
-#gulpManagerViewContainer {
+view-manager {
   height: 200px;
+  display: block;
   .flex-view {
     display: flex
   }
@@ -27,6 +28,7 @@ header-button {
 gulp-view {
     h5 {
       margin: 0 0 10px 0;
+      padding-left: 5px;
     }
 
     ul {
@@ -34,6 +36,7 @@ gulp-view {
       padding: 0px;
 
       li {
+        cursor: pointer;
         padding: 0 0px 5px 5px;
         font-size: 12px;
       }
@@ -44,6 +47,7 @@ gulp-view {
 output-view {
   height: 100%;
   max-height: 100%;
+  display: flex;
 
   .task-container {
     overflow: auto;
@@ -56,6 +60,10 @@ output-view {
       list-style-type: none;
       padding-left: 10px;
       font-size: 11px;
+
+      li {
+        cursor: pointer;
+      }
     }
 
   }
@@ -68,6 +76,18 @@ output-view {
     .output {
       padding: 0;
       font-size: 10px;
+    }
+
+    .error {
+      color: @text-color-error;
+    }
+
+    .success {
+      color: @text-color-success;
+    }
+
+    .info {
+      color: @text-color-info;
     }
   }
 }

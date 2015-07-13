@@ -4,10 +4,10 @@ GulpfileUtil = require('../../gulpfile-util')
 {Emitter} = require('atom')
 
 class GulpView extends ViewElement
-  prepare: (id, visible) ->
-    super(id, visible)
+  prepare: (id, @active) ->
+    super(id, @active)
 
-    @name = 'Gulpfiles'
+    @type = 'Gulpfiles'
     @emitter = new Emitter()
     @gulpfileUtil = new GulpfileUtil()
 
@@ -16,7 +16,7 @@ class GulpView extends ViewElement
     header.textContent = 'Gulpfiles: '
     @.appendChild(header)
 
-    if visible
+    if @active
       @createGulpfileList()
 
     return @
@@ -43,7 +43,7 @@ class GulpView extends ViewElement
 
     @.appendChild(@fileContainer)
 
-  onDidClick: (callback) ->
+  onGulpfileClicked: (callback) ->
     return @emitter.on('gulpfile:selected', callback)
 
   setVisibility: (value) ->

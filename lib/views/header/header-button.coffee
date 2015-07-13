@@ -1,7 +1,7 @@
 {Emitter} = require('atom')
 
 class HeaderButton extends HTMLElement
-  prepare: (@name, id) ->
+  prepare: (@name, id, @active) ->
     @.id = 'header-button-' + id
 
     @emitter = new Emitter()
@@ -18,8 +18,12 @@ class HeaderButton extends HTMLElement
   getId: ->
     return @.id.split('header-button-')[1]
 
+  isActive: ->
+    return @active
+
   setActive: (value) ->
-    if value
+    @active = value
+    if @active
       @.classList.add('selected')
     else
       @.classList.remove('selected')

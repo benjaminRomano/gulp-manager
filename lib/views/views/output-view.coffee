@@ -6,9 +6,9 @@ Converter = require 'ansi-to-html'
 $ = require('jquery')
 
 class OutputView extends ViewElement
-  prepare: (@gulpfile, id, visible) ->
-    super(id, visible)
-    @name = 'Output'
+  prepare: (@gulpfile, id, @active) ->
+    super(id, @active)
+    @type = 'Output'
 
     @converter = new Converter()
     @emitter = new Emitter()
@@ -18,7 +18,6 @@ class OutputView extends ViewElement
     @filePath = @gulpfileUtil.createFilePath(@gulpfile.dir, @gulpfile.fileName)
     @gulpfileRunner = new GulpfileRunner(@filePath)
 
-    @.classList.add('inset-panel')
     @taskContainer = @createTaskContainer()
     @outputContainer = @createOutputContainer()
 
@@ -27,7 +26,7 @@ class OutputView extends ViewElement
 
     @subscriptions.add @onTaskClicked(@runTask.bind(@))
 
-    if visible
+    if @active
       @addGulpTasks()
 
     return @
@@ -58,7 +57,7 @@ class OutputView extends ViewElement
 
   addGulpTasks: ->
     @tasks = []
-    @writeOutput("fetching gulp tasks...")
+    @writeOutput("fetching gulp tasks...", "info")
 
     if @taskList
       @taskContainer.removeChild(@taskList)
@@ -73,7 +72,7 @@ class OutputView extends ViewElement
 
         @taskContainer.appendChild(@taskList)
 
-        @writeOutput "#{@tasks.length} tasks found"
+        @writeOutput("#{@tasks.length} tasks found", "info")
       else
         @onExit(code)
 
@@ -87,8 +86,8 @@ class OutputView extends ViewElement
       taskEl.className = 'list-item'
       taskEl.textContent = task
 
-      taskEl.addEventListener('click', =>
-        @emitter.emit('task:clicked', task)
+      do (task, @emitter) -> taskEl.addEventListener('click', ->
+        emitter.emit('task:clicked', task)
       )
 
       taskList.appendChild(taskEl)
@@ -123,7 +122,9 @@ class OutputView extends ViewElement
     return
 
   onExit: (code) ->
-    @writeOutput("Exited with code #{code}", "#{if code then 'error' else ''}")
+    @writeOutput("Exited with code #{code}",
+      "#{if code then 'error' else 'success'}")
+
     @process = null
     return
 
