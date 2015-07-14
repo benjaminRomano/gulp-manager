@@ -8,6 +8,34 @@ gulp-manager-panel {
   min-height: 200px;
   max-height: 200px;
 
+  ul {
+    max-height: 100%;
+    list-style-type: none;
+    padding: 0px;
+
+    li {
+      margin: 0;
+      padding: 0;
+      padding: 0 0px 5px 5px;
+      font-size: 12px;
+
+      span {
+        cursor: pointer;
+        padding: 3px;
+      }
+
+      span:hover {
+        color: @text-color-highlight;
+        background-color: @background-color-selected;
+        border-radius: 3px;
+      }
+
+      span:active {
+        color: @text-color-selected;
+      }
+    }
+  }
+
 }
 
 div[is='gulp-manager-header'] {
@@ -26,20 +54,12 @@ header-button {
 }
 
 gulp-view {
-    h5 {
-      margin: 0 0 10px 0;
-      padding-left: 5px;
-    }
+    max-height: 100%;
 
-    ul {
-      list-style-type: none;
-      padding: 0px;
-
-      li {
-        cursor: pointer;
-        padding: 0 0px 5px 5px;
-        font-size: 12px;
-      }
+    .fileContainer {
+      padding-top:5px;
+      overflow: auto;
+      max-height: 100%;
     }
 }
 
@@ -56,15 +76,7 @@ output-view {
     padding-left: 5px;
     border-right: 1px solid @base-border-color;
 
-    ul {
-      list-style-type: none;
-      padding-left: 10px;
-      font-size: 11px;
 
-      li {
-        cursor: pointer;
-      }
-    }
 
   }
 

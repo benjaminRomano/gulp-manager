@@ -80,17 +80,15 @@ class OutputView extends ViewElement
 
   createTaskList: (tasks) ->
     taskList = document.createElement('ul')
-    taskList.className = 'list-group'
     for task in @tasks.sort()
-      taskEl = document.createElement('li')
-      taskEl.className = 'list-item'
-      taskEl.textContent = task
+      listItem = document.createElement('li')
+      $(listItem).append("<span class='icon icon-zap'>#{task}</span>")
 
-      do (task, @emitter) -> taskEl.addEventListener('click', ->
+      do (task, @emitter) -> listItem.firstChild.addEventListener('click', ->
         emitter.emit('task:clicked', task)
       )
 
-      taskList.appendChild(taskEl)
+      taskList.appendChild(listItem)
 
 
     return taskList
