@@ -18,12 +18,11 @@ class GulpView extends ViewElement
 
     return @
 
-
   createGulpfileList: ->
     @gulpfiles = @gulpfileUtil.getGulpfiles()
 
     if @fileContainer
-      @.removeChild(@fileContainer)
+      @removeChild(@fileContainer)
 
     @fileContainer = document.createElement('div')
     @fileContainer.className = 'fileContainer'
@@ -44,7 +43,7 @@ class GulpView extends ViewElement
 
       fileList.appendChild(listItem)
 
-    @.appendChild(@fileContainer)
+    @appendChild(@fileContainer)
 
   onGulpfileClicked: (callback) ->
     return @emitter.on('gulpfile:selected', callback)
@@ -52,6 +51,10 @@ class GulpView extends ViewElement
   setVisibility: (value) ->
     super(value)
 
+  refresh: ->
+    @destroy()
+    if @active
+      @createGulpfileList()
 
   destroy: ->
 

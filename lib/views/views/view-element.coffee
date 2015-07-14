@@ -1,6 +1,6 @@
 class ViewElement extends HTMLElement
   prepare: (id, @visible) ->
-    @.id = 'view-' + id
+    @id = 'view-' + id
 
     @setActive(@active)
     return @
@@ -17,6 +17,6 @@ class ViewElement extends HTMLElement
 
 
   getId: ->
-    return @.id.split('view-')[1]
+    return @id.split('view-')[1]
 
 module.exports = ViewElement

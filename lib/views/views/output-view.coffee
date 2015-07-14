@@ -18,11 +18,8 @@ class OutputView extends ViewElement
     @filePath = @gulpfileUtil.createFilePath(@gulpfile.dir, @gulpfile.fileName)
     @gulpfileRunner = new GulpfileRunner(@filePath)
 
-    @taskContainer = @createTaskContainer()
-    @outputContainer = @createOutputContainer()
-
-    @.appendChild(@taskContainer)
-    @.appendChild(@outputContainer)
+    @addTaskContainer()
+    @addOutputContainer()
 
     @subscriptions.add @onTaskClicked(@runTask.bind(@))
 
@@ -34,43 +31,46 @@ class OutputView extends ViewElement
   onTaskClicked: (callback) ->
     return @emitter.on('task:clicked', callback)
 
-  createOutputContainer: ->
-    outputContainerEl = document.createElement('div')
-    outputContainerEl.id = 'output-container-' + @.getId()
-    outputContainerEl.className = 'output-container'
+  addOutputContainer: ->
+    if @outputContainer
+      @.removeChild(@outputContainer)
 
-    return outputContainerEl
+    @outputContainer = document.createElement('div')
+    @outputContainer.className = 'output-container'
 
-  createTaskContainer: ->
-    taskContainerEl = document.createElement('div')
-    taskContainerEl.id = 'task-container-' + @.getId()
-    taskContainerEl.className = 'task-container'
+    @appendChild(@outputContainer)
 
-    return taskContainerEl
+  addTaskContainer: ->
+    if @taskContainer
+      @.removeChild(@taskContainer)
+
+    @taskContainer = document.createElement('div')
+    @taskContainer.className = 'task-container'
+
+    @appendChild(@taskContainer)
 
   setVisibility: (value) ->
     super(value)
     if value
-      @.classList.add('flex-view')
+      @classList.add('flex-view')
     else
-      @.classList.remove('flex-view')
+      @classList.remove('flex-view')
 
   addGulpTasks: ->
     @tasks = []
     @writeOutput("fetching gulp tasks...", "info")
 
-    if @taskList
-      @taskContainer.removeChild(@taskList)
+    $(@taskContainer).empty()
 
-     onTaskOutput = (output) =>
+    onTaskOutput = (output) =>
       for task in output.split('\n') when task.length
         @tasks.push(task)
 
     onTaskExit = (code) =>
       if code is 0
-        @taskList = @createTaskList(@tasks)
+        taskList = @createTaskList(@tasks)
 
-        @taskContainer.appendChild(@taskList)
+        @taskContainer.appendChild(taskList)
 
         @writeOutput("#{@tasks.length} tasks found", "info")
       else
@@ -107,27 +107,31 @@ class OutputView extends ViewElement
       el.classList.add('output')
       @outputContainer.appendChild(el)
       $(@outputContainer).scrollTop(@outputContainer.scrollHeight)
-    return
 
   onOutput: (output) ->
     for line in output.split('\n')
       @writeOutput(@converter.toHtml(line))
-    return
 
   onError: (output) ->
     for line in output.split('\n')
       @writeOutput(@converter.toHtml(line), 'error')
-    return
 
   onExit: (code) ->
     @writeOutput("Exited with code #{code}",
       "#{if code then 'error' else 'success'}")
 
-    @process = null
-    return
+  refresh: ->
+    @destroy()
+    @addTaskContainer()
+    @addOutputContainer()
 
+    @subscriptions.add @onTaskClicked(@runTask.bind(@))
+
+    if @active
+      @addGulpTasks()
 
   destroy: ->
+    @gulpfileRunner.destroy()
     @subscriptions.dispose()
 
 

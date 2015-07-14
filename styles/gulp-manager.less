@@ -22,23 +22,58 @@ gulp-manager-panel {
       span {
         cursor: pointer;
         padding: 3px;
+
+        &:hover {
+          color: @text-color-highlight;
+          background-color: @background-color-selected;
+          border-radius: 3px;
+        }
+
+        &:active {
+          color: @text-color-selected;
+        }
+      }
+    }
+  }
+}
+
+gulp-manager-header {
+  width: 100%;
+  display: block;
+
+  .view-button-container {
+    float: right;
+
+    span {
+      vertical-align: middle;
+      padding: 0px;
+      cursor: pointer;
+    }
+
+    .refresh-button {
+      color: @text-color-info;
+
+      &:hover {
+        color: @background-color-info;
       }
 
-      span:hover {
-        color: @text-color-highlight;
-        background-color: @background-color-selected;
-        border-radius: 3px;
+      &:active {
+        color: @text-color-selected;
+      }
+    }
+
+    .delete-button {
+      color: @text-color-error;
+
+      &:hover {
+        color: @background-color-error;
       }
 
-      span:active {
+      &:active {
         color: @text-color-selected;
       }
     }
   }
-
-}
-
-div[is='gulp-manager-header'] {
 }
 
 view-manager {

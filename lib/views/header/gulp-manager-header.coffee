@@ -13,10 +13,36 @@ class GulpManagerHeader extends HTMLElement
     @.classList.add('btn-group')
     @.classList.add('gulp-manager-header')
 
+    @addViewButtons()
+
     for info in buttonInfo
       @addButton(info.name, info.id, info.active)
 
     return @
+
+  addViewButtons: ->
+    viewButtonContainer = document.createElement('div')
+    viewButtonContainer.className = "view-button-container"
+
+
+    refreshButton = document.createElement('span')
+    refreshButton.className = 'refresh-button icon icon-sync'
+
+    @subscriptions.add(refreshButton.addEventListener('click', =>
+      @emitter.emit('refresh:button:clicked')
+    ))
+
+    deleteButton = document.createElement('span')
+    deleteButton.className = 'delete-button icon icon-x'
+
+    @subscriptions.add(deleteButton.addEventListener('click', =>
+      @emitter.emit('delete:button:clicked')
+    ))
+
+    viewButtonContainer.appendChild(refreshButton)
+    viewButtonContainer.appendChild(deleteButton)
+
+    @.appendChild(viewButtonContainer)
 
   addButton: (name, id, active) ->
     button = new HeaderButton().prepare(name, id, active)
@@ -49,11 +75,33 @@ class GulpManagerHeader extends HTMLElement
   onHeaderButtonClicked: (callback) ->
     return @emitter.on('header:button:clicked', callback)
 
+  onRefreshButtonClicked: (callback) ->
+    return @emitter.on('refresh:button:clicked', callback)
+
+  onDeleteButtonClicked: (callback) ->
+    return @emitter.on('delete:button:clicked', callback)
+
+  deleteCurrentHeaderButton: ->
+    currentView = null
+    for button in @buttons
+      if button.isActive()
+        currentButton = button
+    @buttons = @buttons.filter((b) ->
+      return b.getId() != button.getId()
+    )
+
+    currentButton.destroy()
+    @.removeChild(currentButton)
+
+    @setActiveButton(@buttons[0].getId())
+
+    return true
+
+
   destroy: ->
     @subscriptions.dispose()
 
 
 module.exports = document.registerElement('gulp-manager-header', {
   prototype: GulpManagerHeader.prototype,
-  extends: 'div'
 })

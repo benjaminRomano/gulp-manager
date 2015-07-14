@@ -30,6 +30,8 @@ class GulpManagerPanel extends HTMLElement
 
     @viewManager.onGulpfileClicked(@createNewOutputView.bind(@))
     @gulpManagerHeader.onHeaderButtonClicked(@changeView.bind(@))
+    @gulpManagerHeader.onDeleteButtonClicked(@deleteView.bind(@))
+    @gulpManagerHeader.onRefreshButtonClicked(@refrshView.bind(@))
 
     @panel = @createPanel()
     @.appendChild(@gulpManagerHeader)
@@ -49,6 +51,14 @@ class GulpManagerPanel extends HTMLElement
 
   changeView: (id) ->
     @viewManager.changeView(id)
+
+  refrshView: ->
+    @viewManager.refreshCurrentView()
+
+  deleteView: ->
+    success = @viewManager.deleteCurrentView()
+    if success
+      @gulpManagerHeader.deleteCurrentHeaderButton()
 
 
   createPanel: ->

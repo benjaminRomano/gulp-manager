@@ -40,10 +40,4 @@ class GulpfileRunner
       @process = null
     return
 
-
-    return
-
-
-
-
 module.exports = GulpfileRunner

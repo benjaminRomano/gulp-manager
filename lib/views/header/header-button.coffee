@@ -31,6 +31,8 @@ class HeaderButton extends HTMLElement
   onDidClick: (callback) ->
     return @emitter.on 'header:button:clicked', callback
 
+  destroy: ->
+
 module.exports = document.registerElement('header-button', {
   prototype: HeaderButton.prototype
 })
