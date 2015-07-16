@@ -1,8 +1,8 @@
 {
   "name": "gulp-manager",
   "main": "./lib/main",
-  "version": "0.1.0",
-  "description": "A short description of your package",
+  "version": "0.0.0",
+  "description": "Manage gulpfiles from inside your editor",
   "keywords": [
     "gulp",
     "manager",
@@ -14,7 +14,7 @@
   "repository": "https://github.com/atom/gulp-manager",
   "license": "MIT",
   "engines": {
-    "atom": ">=1.0.0 <2.0.0"
+    "atom": ">=1.0.0"
   },
   "dependencies": {
     "ansi-to-html": "^0.3.0",

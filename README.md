@@ -1,6 +1,6 @@
 # gulp-manager package
 
-Run gulpfiles from inside your editor.
+Manage gulpfiles from inside your editor.
 
 Press ctrl-k ctrl-t to open/close the gulp manager panel.
 Press ctrl-k ctrl-r to refresh the current window.
