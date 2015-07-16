@@ -6,6 +6,7 @@
   "keywords": [
     "gulp",
     "manager",
+    "gulpfile",
     "runner"
   ],
   "activationCommands": {
