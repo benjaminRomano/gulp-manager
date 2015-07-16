@@ -1,17 +1,13 @@
-HeaderButton = require('./header-button')
+TabButton = require('./tab-button')
 {Emitter, CompositeDisposable} = require('atom')
 
-class GulpManagerHeader extends HTMLElement
+class TabManager extends HTMLElement
 
   prepare: (buttonInfo) ->
 
     @buttons = []
     @subscriptions = new CompositeDisposable()
     @emitter = new Emitter()
-
-    @.classList.add('inline-block')
-    @.classList.add('btn-group')
-    @.classList.add('gulp-manager-header')
 
     @addViewButtons()
 
@@ -22,8 +18,7 @@ class GulpManagerHeader extends HTMLElement
 
   addViewButtons: ->
     viewButtonContainer = document.createElement('div')
-    viewButtonContainer.className = "view-button-container"
-
+    viewButtonContainer.classList.add("view-button-container")
 
     refreshButton = document.createElement('span')
     refreshButton.className = 'refresh-button icon icon-sync'
@@ -45,7 +40,7 @@ class GulpManagerHeader extends HTMLElement
     @.appendChild(viewButtonContainer)
 
   addButton: (name, id, active) ->
-    button = new HeaderButton().prepare(name, id, active)
+    button = new TabButton().prepare(name, id, active)
     @buttons.push(button)
 
     @subscriptions.add(button.onDidClick((id) =>
@@ -102,6 +97,6 @@ class GulpManagerHeader extends HTMLElement
     @subscriptions.dispose()
 
 
-module.exports = document.registerElement('gulp-manager-header', {
-  prototype: GulpManagerHeader.prototype,
+module.exports = document.registerElement('tab-manager', {
+  prototype: TabManager.prototype,
 })

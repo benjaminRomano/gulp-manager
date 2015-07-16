@@ -13,6 +13,8 @@ module.exports = GulpManager =
     @subscriptions = new CompositeDisposable
 
     @subscriptions.add(atom.commands.add('atom-workspace', 'gulp-manager:toggle': => @toggle()))
+    @subscriptions.add(atom.commands.add('atom-workspace', 'gulp-manager:view:refresh': => @refreshView()))
+    @subscriptions.add(atom.commands.add('atom-workspace', 'gulp-manager:view:delete': => @deleteView()))
 
   deactivate: ->
     @gulpManagerPanel.destroy()
@@ -20,3 +22,9 @@ module.exports = GulpManager =
 
   toggle: ->
     @gulpManagerPanel.toggleVisibility()
+
+  refreshView: ->
+    @gulpManagerPanel.refreshView()
+
+  deleteView: ->
+    @gulpManagerPanel.deleteView()

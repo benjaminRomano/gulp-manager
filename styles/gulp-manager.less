@@ -5,8 +5,6 @@
 @import "ui-variables";
 
 gulp-manager-panel {
-  min-height: 200px;
-  max-height: 200px;
 
   ul {
     max-height: 100%;
@@ -15,9 +13,8 @@ gulp-manager-panel {
 
     li {
       margin: 0;
-      padding: 0;
       padding: 0 0px 5px 5px;
-      font-size: 12px;
+      font-size: 13px;
 
       span {
         cursor: pointer;
@@ -37,81 +34,67 @@ gulp-manager-panel {
   }
 }
 
-gulp-manager-header {
-  width: 100%;
-  display: block;
+.view-button-container {
+  float: right;
 
-  .view-button-container {
-    float: right;
+  span {
+    vertical-align: middle;
+    padding: 0px;
+    cursor: pointer;
+  }
 
-    span {
-      vertical-align: middle;
-      padding: 0px;
-      cursor: pointer;
+  .refresh-button {
+    color: @text-color-info;
+
+    &:hover {
+      color: @background-color-info;
     }
 
-    .refresh-button {
-      color: @text-color-info;
+    &:active {
+      color: @text-color-selected;
+    }
+  }
 
-      &:hover {
-        color: @background-color-info;
-      }
+  .delete-button {
+    color: @text-color-error;
 
-      &:active {
-        color: @text-color-selected;
-      }
+    &:hover {
+      color: @background-color-error;
     }
 
-    .delete-button {
-      color: @text-color-error;
-
-      &:hover {
-        color: @background-color-error;
-      }
-
-      &:active {
-        color: @text-color-selected;
-      }
+    &:active {
+      color: @text-color-selected;
     }
   }
 }
 
 view-manager {
-  height: 200px;
+  height: 250px;
   display: block;
-  .flex-view {
-    display: flex
-  }
-}
-
-header-button {
-  border: none;
+  background-color:@base-background-color;
+  border: 1px solid @base-border-color;
 }
 
 gulp-view {
-    max-height: 100%;
+    height: 100%;
+    padding: 5px;
+    display: flex;
 
     .fileContainer {
-      padding-top:5px;
       overflow: auto;
-      max-height: 100%;
     }
 }
 
 
 output-view {
   height: 100%;
-  max-height: 100%;
+  padding: 5px;
   display: flex;
 
   .task-container {
     overflow: auto;
     flex: 0 0 20%;
-    height: 100%;
-    padding-left: 5px;
     border-right: 1px solid @base-border-color;
-
-
 
   }
 
@@ -120,21 +103,10 @@ output-view {
     overflow: auto;
     padding-left: 10px;
 
-    .output {
+    pre {
       padding: 0;
-      font-size: 10px;
-    }
-
-    .error {
-      color: @text-color-error;
-    }
-
-    .success {
-      color: @text-color-success;
-    }
-
-    .info {
-      color: @text-color-info;
+      font-size: 11px;
+      background-color: @base-background-color;
     }
   }
 }

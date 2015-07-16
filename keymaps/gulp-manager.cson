@@ -8,5 +8,6 @@
 # For more detailed documentation see
 # https://atom.io/docs/latest/behind-atom-keymaps-in-depth
 'atom-workspace':
-  'ctrl-k ctrl-o': 'gulp-manager:toggle'
-  'ctrl-k ctrl-r': 'gulp-manager:refreshView'
+  'ctrl-k ctrl-t': 'gulp-manager:toggle'
+  'ctrl-k ctrl-r': 'gulp-manager:view:refresh'
+  'ctrl-k ctrl-c': 'gulp-manager:view:delete'

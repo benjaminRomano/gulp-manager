@@ -1,4 +1,4 @@
-GulpManagerHeader = require './header/gulp-manager-header'
+TabManager = require './header/tab-manager'
 ViewManager = require './views/view-manager'
 {CompositeDisposable} = require 'atom'
 
@@ -8,8 +8,6 @@ class GulpManagerPanel extends HTMLElement
     @viewId = 0
 
     @subscriptions = new CompositeDisposable()
-
-    #@subscriptions.add(gulpView.onDidClick(@createNewOutputView.bind(@)))
 
     viewInfo = [{
       type: 'Gulpfiles',
@@ -26,15 +24,15 @@ class GulpManagerPanel extends HTMLElement
       })
 
     @viewManager = new ViewManager().prepare(viewInfo)
-    @gulpManagerHeader = new GulpManagerHeader().prepare(buttonInfo)
+    @tabManager = new TabManager().prepare(buttonInfo)
 
     @viewManager.onGulpfileClicked(@createNewOutputView.bind(@))
-    @gulpManagerHeader.onHeaderButtonClicked(@changeView.bind(@))
-    @gulpManagerHeader.onDeleteButtonClicked(@deleteView.bind(@))
-    @gulpManagerHeader.onRefreshButtonClicked(@refrshView.bind(@))
+    @tabManager.onHeaderButtonClicked(@changeView.bind(@))
+    @tabManager.onDeleteButtonClicked(@deleteView.bind(@))
+    @tabManager.onRefreshButtonClicked(@refreshView.bind(@))
 
     @panel = @createPanel()
-    @.appendChild(@gulpManagerHeader)
+    @.appendChild(@tabManager)
     @.appendChild(@viewManager)
 
     return @
@@ -47,18 +45,18 @@ class GulpManagerPanel extends HTMLElement
       active: true
 
     @viewManager.addView(viewInfo)
-    button = @gulpManagerHeader.addButton('Output', viewInfo.id, true)
+    button = @tabManager.addButton('Output', viewInfo.id, true)
 
   changeView: (id) ->
     @viewManager.changeView(id)
 
-  refrshView: ->
+  refreshView: ->
     @viewManager.refreshCurrentView()
 
   deleteView: ->
     success = @viewManager.deleteCurrentView()
     if success
-      @gulpManagerHeader.deleteCurrentHeaderButton()
+      @tabManager.deleteCurrentHeaderButton()
 
 
   createPanel: ->
@@ -71,6 +69,7 @@ class GulpManagerPanel extends HTMLElement
     return panel
 
   destroy: ->
+    @panel.destroy()
     @subscriptions.dispose()
 
   toggleVisibility: ->

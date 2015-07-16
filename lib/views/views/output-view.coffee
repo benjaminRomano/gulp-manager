@@ -10,10 +10,10 @@ class OutputView extends ViewElement
     super(id, @active)
     @type = 'Output'
 
-    @converter = new Converter()
-    @emitter = new Emitter()
     @subscriptions = new CompositeDisposable()
     @gulpfileUtil = new GulpfileUtil()
+    @converter = new Converter()
+    @emitter = new Emitter()
 
     @filePath = @gulpfileUtil.createFilePath(@gulpfile.dir, @gulpfile.fileName)
     @gulpfileRunner = new GulpfileRunner(@filePath)
@@ -51,14 +51,10 @@ class OutputView extends ViewElement
 
   setVisibility: (value) ->
     super(value)
-    if value
-      @classList.add('flex-view')
-    else
-      @classList.remove('flex-view')
 
   addGulpTasks: ->
     @tasks = []
-    @writeOutput("fetching gulp tasks...", "info")
+    @writeOutput("fetching gulp tasks for #{@filePath}", 'text-info')
 
     $(@taskContainer).empty()
 
@@ -72,11 +68,12 @@ class OutputView extends ViewElement
 
         @taskContainer.appendChild(taskList)
 
-        @writeOutput("#{@tasks.length} tasks found", "info")
+        @writeOutput("#{@tasks.length} tasks found", "text-info")
       else
         @onExit(code)
 
-    @gulpfileRunner.getGulpTasks(onTaskOutput, @onError, onTaskExit)
+    @gulpfileRunner.getGulpTasks(onTaskOutput.bind(@),
+      @onError.bind(@), onTaskExit.bind(@))
 
   createTaskList: (tasks) ->
     taskList = document.createElement('ul')
@@ -103,8 +100,7 @@ class OutputView extends ViewElement
       el = document.createElement('pre')
       $(el).append(line)
       if klass
-        el.classList.add(klass)
-      el.classList.add('output')
+        el.className = klass
       @outputContainer.appendChild(el)
       $(@outputContainer).scrollTop(@outputContainer.scrollHeight)
 
@@ -114,11 +110,11 @@ class OutputView extends ViewElement
 
   onError: (output) ->
     for line in output.split('\n')
-      @writeOutput(@converter.toHtml(line), 'error')
+      @writeOutput(@converter.toHtml(line), 'text-error')
 
   onExit: (code) ->
     @writeOutput("Exited with code #{code}",
-      "#{if code then 'error' else 'success'}")
+      "#{if code then 'text-error' else 'text-success'}")
 
   refresh: ->
     @destroy()

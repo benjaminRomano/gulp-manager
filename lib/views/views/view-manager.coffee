@@ -5,7 +5,6 @@ GulpView = require('./gulp-view')
 
 class ViewManager extends HTMLElement
   prepare: (viewInfo) ->
-    @.className = 'inset-panel'
     @views = []
     @subscriptions = new CompositeDisposable()
     @emitter = new Emitter()

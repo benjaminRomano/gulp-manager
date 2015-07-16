@@ -1,8 +1,8 @@
 {Emitter} = require('atom')
 
-class HeaderButton extends HTMLElement
+class TabButton extends HTMLElement
   prepare: (@name, id, @active) ->
-    @.id = 'header-button-' + id
+    @.id = 'tab-button-' + id
 
     @emitter = new Emitter()
 
@@ -10,13 +10,13 @@ class HeaderButton extends HTMLElement
     @.textContent = @name
 
     @.addEventListener('click', =>
-      @emitter.emit('header:button:clicked', @.getId())
+      @emitter.emit('tab:button:clicked', @.getId())
     )
 
     return @
 
   getId: ->
-    return @.id.split('header-button-')[1]
+    return @.id.split('tab-button-')[1]
 
   isActive: ->
     return @active
@@ -29,10 +29,10 @@ class HeaderButton extends HTMLElement
       @.classList.remove('selected')
 
   onDidClick: (callback) ->
-    return @emitter.on 'header:button:clicked', callback
+    return @emitter.on 'tab:button:clicked', callback
 
   destroy: ->
 
-module.exports = document.registerElement('header-button', {
-  prototype: HeaderButton.prototype
+module.exports = document.registerElement('tab-button', {
+  prototype: TabButton.prototype
 })
