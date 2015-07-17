@@ -82,7 +82,7 @@ class TabManager extends HTMLElement
       if button.isActive()
         currentButton = button
     @buttons = @buttons.filter((b) ->
-      return b.getId() != button.getId()
+      return b.getId() != currentButton.getId()
     )
 
     currentButton.destroy()

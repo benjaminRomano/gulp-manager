@@ -78,10 +78,20 @@ view-manager {
 gulp-view {
     height: 100%;
     padding: 5px;
-    display: flex;
+    display: block;
 
-    .fileContainer {
+    .file-container {
+      height: 77%;
+      width: 100%;
       overflow: auto;
+    }
+
+    .args-container {
+      padding: 5px;
+
+      span {
+        font-size: 12px;
+      }
     }
 }
 
@@ -92,9 +102,20 @@ output-view {
   display: flex;
 
   .task-container {
-    overflow: auto;
-    flex: 0 0 20%;
+    height: 100%;
+    flex: 0 0 30%;
     border-right: 1px solid @base-border-color;
+    padding-right: 5px;
+
+    .task-list-container {
+      height: 77%;
+      overflow: auto;
+    }
+
+    .custom-task-container {
+      padding: 5px;
+      font-size: 12px;
+    }
 
   }
 

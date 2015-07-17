@@ -54,7 +54,9 @@ class OutputView extends ViewElement
 
   addGulpTasks: ->
     @tasks = []
-    @writeOutput("fetching gulp tasks for #{@filePath}", 'text-info')
+    output = "fetching gulp tasks for #{@filePath}"
+    output += " with args: #{@gulpfile.args}" if @gulpfile.args
+    @writeOutput(output, 'text-info')
 
     $(@taskContainer).empty()
 
@@ -64,18 +66,20 @@ class OutputView extends ViewElement
 
     onTaskExit = (code) =>
       if code is 0
-        taskList = @createTaskList(@tasks)
 
-        @taskContainer.appendChild(taskList)
+        @taskContainer.appendChild(@createTaskList(@tasks))
+        @taskContainer.appendChild(@createCustomTaskContainer())
 
         @writeOutput("#{@tasks.length} tasks found", "text-info")
       else
         @onExit(code)
 
     @gulpfileRunner.getGulpTasks(onTaskOutput.bind(@),
-      @onError.bind(@), onTaskExit.bind(@))
+      @onError.bind(@), onTaskExit.bind(@), @gulpfile.args)
 
   createTaskList: (tasks) ->
+    taskListContainer = document.createElement('div')
+    taskListContainer.classList.add('task-list-container')
     taskList = document.createElement('ul')
     for task in @tasks.sort()
       listItem = document.createElement('li')
@@ -87,8 +91,30 @@ class OutputView extends ViewElement
 
       taskList.appendChild(listItem)
 
+    taskListContainer.appendChild(taskList)
 
-    return taskList
+    return taskListContainer
+
+  createCustomTaskContainer: ->
+
+    customTaskContainer = document.createElement('div')
+    customTaskContainer.classList.add('custom-task-container')
+    customTaskLabel = document.createElement('span')
+    customTaskLabel.className = 'inline-block'
+    customTaskLabel.textContent =  "Custom Task:"
+    customTaskInput = document.createElement('atom-text-editor')
+    customTaskInput.setAttribute('mini', '')
+    customTaskInput.getModel().setPlaceholderText('Press Enter to run')
+
+    customTaskInput.addEventListener('keyup', (e) =>
+      #Run if user presses enter
+      @runTask(customTaskInput.getModel().getText()) if e.keyCode == 13
+    )
+
+    customTaskContainer.appendChild(customTaskLabel)
+    customTaskContainer.appendChild(customTaskInput)
+
+    return customTaskContainer
 
   runTask: (task) ->
     @gulpfileRunner.runGulp(task,

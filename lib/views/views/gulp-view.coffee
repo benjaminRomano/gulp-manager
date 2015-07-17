@@ -12,9 +12,9 @@ class GulpView extends ViewElement
     @emitter = new Emitter()
     @gulpfileUtil = new GulpfileUtil()
 
-
     if @active
-      @createGulpfileList()
+      @appendChild(@createArgsContainer())
+      @insertBefore(@createGulpfileList(), @argsContainer)
 
     return @
 
@@ -25,7 +25,7 @@ class GulpView extends ViewElement
       @removeChild(@fileContainer)
 
     @fileContainer = document.createElement('div')
-    @fileContainer.className = 'fileContainer'
+    @fileContainer.className = 'file-container'
     fileList = document.createElement('ul')
     @fileContainer.appendChild(fileList)
 
@@ -35,15 +35,32 @@ class GulpView extends ViewElement
 
       $(listItem).append("<span class='icon icon-file-text'>#{filePath}</span>")
 
-      #Coffeescript syntax to create closure and capture gulpfile
-      do (gulpfile, @emitter) ->
+      do (gulpfile, @emitter, @argsInput) ->
         listItem.firstChild.addEventListener('click', ->
+          gulpfile.args = argsInput.getModel().getText()
           emitter.emit('gulpfile:selected', gulpfile)
         )
 
       fileList.appendChild(listItem)
 
-    @appendChild(@fileContainer)
+    return @fileContainer
+
+  createArgsContainer: ->
+    if @argsContainer
+      @removeChild(@argsContainer)
+
+    @argsContainer = document.createElement('div')
+    @argsContainer.classList.add('args-container')
+    argsInputLabel = document.createElement('span')
+    argsInputLabel.classList.add('inline-block')
+    argsInputLabel.textContent =  "Args required to fetch tasks (optional):"
+    @argsInput = document.createElement('atom-text-editor')
+    @argsInput.setAttribute('mini', '')
+
+    @argsContainer.appendChild(argsInputLabel)
+    @argsContainer.appendChild(@argsInput)
+
+    return @argsContainer
 
   onGulpfileClicked: (callback) ->
     return @emitter.on('gulpfile:selected', callback)
@@ -54,7 +71,8 @@ class GulpView extends ViewElement
   refresh: ->
     @destroy()
     if @active
-      @createGulpfileList()
+      @appendChild(@createArgsContainer())
+      @insertBefore(@createGulpfileList(), @argsContainer)
 
   destroy: ->
 
