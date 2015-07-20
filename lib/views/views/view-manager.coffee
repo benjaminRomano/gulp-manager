@@ -1,5 +1,6 @@
 OutputView = require('./output-view')
 GulpView = require('./gulp-view')
+$ = require('jquery')
 
 {Emitter, CompositeDisposable} = require('atom')
 
@@ -9,8 +10,15 @@ class ViewManager extends HTMLElement
     @subscriptions = new CompositeDisposable()
     @emitter = new Emitter()
 
+    resizeHandle = document.createElement('div')
+    resizeHandle.classList.add('view-manager-resize-handle')
+    @handleEvents()
+
+    @appendChild(resizeHandle)
+
     for info in viewInfo
       @addView(info)
+
 
     return @
 
@@ -75,8 +83,24 @@ class ViewManager extends HTMLElement
 
   destroy: ->
     @subscriptions.dispose()
+    @resizeStopped()
     for view in @views
       view.destroy()
+
+  resizeStarted: =>
+    $(document).on('mousemove', @resizeView)
+    $(document).on('mouseup', @resizeStopped)
+
+  resizeStopped: =>
+    $(document).off('mousemove', @resizeView)
+    $(document).off('mouseup', @resizeStopped)
+
+  resizeView: ({pageY, which}) ->
+    height = $(document.body).height() - pageY
+    $('view-manager').height(height)
+
+  handleEvents: ->
+    $(@).on 'mousedown', '.view-manager-resize-handle', (e) => @resizeStarted(e)
 
 module.exports = document.registerElement('view-manager', {
   prototype: ViewManager.prototype

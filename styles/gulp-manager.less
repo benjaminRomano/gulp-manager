@@ -70,20 +70,27 @@ gulp-manager-panel {
 
 view-manager {
   height: 250px;
+  min-height: 150px;
   display: block;
   background-color:@base-background-color;
   border: 1px solid @base-border-color;
+
+  .view-manager-resize-handle {
+    height: 5px;
+    cursor: ns-resize;
+  }
 }
 
 gulp-view {
     height: 100%;
     padding: 5px;
-    display: block;
+    display: flex;
+    flex-direction: column;
 
     .file-container {
-      height: 77%;
       width: 100%;
       overflow: auto;
+      flex: 1;
     }
 
     .args-container {
@@ -95,7 +102,6 @@ gulp-view {
     }
 }
 
-
 output-view {
   height: 100%;
   padding: 5px;
@@ -106,9 +112,11 @@ output-view {
     flex: 0 0 30%;
     border-right: 1px solid @base-border-color;
     padding-right: 5px;
+    display: flex;
+    flex-direction:column;
 
     .task-list-container {
-      height: 77%;
+      flex: 1;
       overflow: auto;
     }
 
