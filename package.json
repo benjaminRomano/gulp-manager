@@ -9,9 +9,6 @@
     "gulpfile",
     "runner"
   ],
-  "activationCommands": {
-    "atom-workspace": "gulp-manager:toggle"
-  },
   "repository": "https://github.com/benjaminRomano/gulp-manager",
   "license": "MIT",
   "engines": {
@@ -19,6 +16,17 @@
   },
   "dependencies": {
     "ansi-to-html": "^0.3.0",
-    "jquery": "^2.1.4"
+    "atom-bottom-dock": "^0.2.2",
+    "space-pen": "^5.1.1"
+  },
+  "packageDependencies": {
+    "bottom-dock": "^0.1.0"
+  },
+  "consumedServices": {
+    "bottom-dock": {
+      "versions": {
+        "^0.0.0": "consumeBottomDock"
+      }
+    }
   }
 }

@@ -40,7 +40,6 @@ class GulpfileRunner
       exit: exit
     })
 
-
   destroy: ->
     if @process
       @process.kill()

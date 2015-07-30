@@ -14,6 +14,8 @@ class GulpfileUtil
     projPaths = atom.project.getPaths()
     gulpfiles = []
 
+    projPaths = projPaths.filter((p) -> p != 'atom://config')
+
     for projPath in projPaths
       gulpfiles = gulpfiles.concat(@getGulpfilesHelper(projPath))
 

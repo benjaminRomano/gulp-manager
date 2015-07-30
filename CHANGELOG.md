@@ -1,3 +1,8 @@
+## 0.2.0
+* Huge refactor
+* Uses bottom-dock to provide dock functionality
+* Added new gulpfile keybinding (ctrl-k ctrl-g)
+
 ## 0.1.2
 * Made panel re-sizeable
 

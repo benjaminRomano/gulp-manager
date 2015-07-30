@@ -4,138 +4,102 @@
 // for a full listing of what's available.
 @import "ui-variables";
 
-gulp-manager-panel {
+.gulp-pane {
+  height: 100%;
+  display: block;
 
   ul {
     max-height: 100%;
     list-style-type: none;
     padding: 0px;
+  }
 
-    li {
-      margin: 0;
-      padding: 0 0px 5px 5px;
-      font-size: 13px;
+  li {
+    margin: 0;
+    padding: 0 0px 5px 5px;
+    font-size: 13px;
 
-      span {
-        cursor: pointer;
-        padding: 3px;
+    span {
+      cursor: pointer;
+      padding: 3px;
 
-        &:hover {
-          color: @text-color-highlight;
-          background-color: @background-color-selected;
-          border-radius: 3px;
-        }
+      &:hover {
+        color: @text-color-highlight;
+        background-color: @background-color-selected;
+        border-radius: 3px;
+      }
 
-        &:active {
-          color: @text-color-selected;
-        }
+      &:active {
+        color: @text-color-selected;
       }
     }
   }
-}
 
-.view-button-container {
-  float: right;
+  .gulp-view {
+      height: 100%;
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
 
-  span {
-    vertical-align: middle;
-    padding: 0px;
-    cursor: pointer;
+      .file-container {
+        width: 100%;
+        overflow: auto;
+        flex: 1;
+      }
+
+      .args-container {
+        padding: 5px;
+
+        span {
+          font-size: 12px;
+        }
+      }
   }
 
-  .refresh-button {
-    color: @text-color-info;
-
-    &:hover {
-      color: @background-color-info;
-    }
-
-    &:active {
-      color: @text-color-selected;
-    }
-  }
-
-  .delete-button {
-    color: @text-color-error;
-
-    &:hover {
-      color: @background-color-error;
-    }
-
-    &:active {
-      color: @text-color-selected;
-    }
-  }
-}
-
-view-manager {
-  height: 250px;
-  min-height: 150px;
-  display: block;
-  background-color:@base-background-color;
-  border: 1px solid @base-border-color;
-
-  .view-manager-resize-handle {
-    height: 5px;
-    cursor: ns-resize;
-  }
-}
-
-gulp-view {
+  .output-view {
     height: 100%;
     padding: 5px;
     display: flex;
-    flex-direction: column;
 
-    .file-container {
-      width: 100%;
-      overflow: auto;
-      flex: 1;
-    }
+    .task-container {
+      height: 100%;
+      flex: 0 0 30%;
+      border-right: 1px solid @base-border-color;
+      padding-right: 5px;
+      display: flex;
+      flex-direction:column;
 
-    .args-container {
-      padding: 5px;
+      .task-list-container {
+        flex: 1;
+        overflow: auto;
+      }
 
-      span {
+      .custom-task-container {
+        padding: 5px;
         font-size: 12px;
       }
+
+      .control-container {
+        padding: 0 5px 5px 5px;
+        font-size: 12px;
+
+        button {
+          width: 50%;
+        }
+      }
+
     }
-}
 
-output-view {
-  height: 100%;
-  padding: 5px;
-  display: flex;
-
-  .task-container {
-    height: 100%;
-    flex: 0 0 30%;
-    border-right: 1px solid @base-border-color;
-    padding-right: 5px;
-    display: flex;
-    flex-direction:column;
-
-    .task-list-container {
+    .output-container {
       flex: 1;
       overflow: auto;
-    }
+      padding-left: 10px;
 
-    .custom-task-container {
-      padding: 5px;
-      font-size: 12px;
-    }
-
-  }
-
-  .output-container {
-    flex: 1;
-    overflow: auto;
-    padding-left: 10px;
-
-    pre {
-      padding: 0;
-      font-size: 11px;
-      background-color: @base-background-color;
+      pre {
+        padding: 0;
+        font-size: 11px;
+        background-color: @base-background-color;
+      }
     }
   }
 }
