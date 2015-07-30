@@ -7,6 +7,7 @@ The Atom package can be found here, https://atom.io/packages/gulp-manager.
 
 ##### Commands
 * ctrl-k ctrl-t: toggles panel
+* ctrl-k ctrl-g create new gulp pane
 * ctrl-k ctrl-r: refreshes window
 * ctrl-k ctrl-c: closes window
 
