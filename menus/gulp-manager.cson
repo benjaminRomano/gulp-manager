@@ -1,18 +1,11 @@
-'context-menu':
-  'atom-text-editor': [
-    {
-      'label': 'Add gulp-manager pane'
-      'command': 'gulp-manager:add'
-    }
-  ]
 'menu': [
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'gulp-manager'
+      'label': 'bottom-dock'
       'submenu': [
         {
-          'label': 'Add'
+          'label': 'Add Gulp Pane'
           'command': 'gulp-manager:add'
         }
       ]

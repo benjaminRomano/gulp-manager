@@ -4,34 +4,23 @@ GulpfileUtil = require('../gulpfile-util')
 
 class GulpView extends View
   @content: ->
-    @div =>
-      @div outlet: 'fileContainer', =>
+    @div class: 'gulp-view', style: 'display:flex;', =>
+      @div outlet: 'fileContainer', class: 'file-container',  =>
         @ul outlet: 'fileList'
-      @div outlet: 'argsContainer', =>
+      @div outlet: 'argsContainer', class: 'args-container inline-block',  =>
         @span outlet: 'argsInputLabel', 'Args required to fetch tasks (optional)'
 
   initialize: ->
     @emitter = new Emitter()
     @gulpfileUtil = new GulpfileUtil()
 
-    @addClass('gulp-view')
-    @css('display','flex')
-
     @setupArgsContainer()
-    @setupFileContainer()
+    @createGulpfileList()
 
   setupArgsContainer: ->
-    @argsContainer.addClass('args-container')
-    #TODO: MOve this to css
-    @argsInputLabel.addClass('inline-block')
     @argsInput = document.createElement('atom-text-editor')
     @argsInput.setAttribute('mini', '')
     @argsContainer.append(@argsInput)
-
-
-  setupFileContainer: ->
-    @fileContainer.addClass('file-container')
-    @createGulpfileList()
 
   createGulpfileList: ->
     @gulpfiles = @gulpfileUtil.getGulpfiles()

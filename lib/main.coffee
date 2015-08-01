@@ -15,8 +15,6 @@ module.exports =
         dismissable: true
       })
 
-
-
     @subscriptions.add(atom.commands.add('atom-workspace',
     'gulp-manager:add': => @add())
     )

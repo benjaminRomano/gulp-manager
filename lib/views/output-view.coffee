@@ -6,16 +6,16 @@ Converter = require('ansi-to-html')
 
 class OutputView extends View
   @content: ->
-    @div =>
-      @div outlet: 'taskContainer', =>
-        @div outlet: 'taskListContainer', =>
+    @div class: 'output-view', style: "display:flex;", =>
+      @div outlet: 'taskContainer', class: 'task-container', =>
+        @div outlet: 'taskListContainer', class: 'task-list-container', =>
           @ul outlet: 'taskList'
-        @div outlet: 'customTaskContainer', =>
-          @span outlet: 'customTaskLabel', 'Custom Task:'
-        @div outlet: 'controlContainer', =>
-          @button outlet: 'backButton', click: 'onBackClicked', 'Back'
-          @button outlet: 'stopButton', click: 'onStopClicked', 'Stop'
-      @div outlet: 'outputContainer'
+        @div outlet: 'customTaskContainer', class: 'custom-task-container', =>
+          @span outlet: 'customTaskLabel', class: 'inline-block', 'Custom Task:'
+        @div outlet: 'controlContainer', class: 'control-container', =>
+          @button outlet: 'backButton', class: 'btn', click: 'onBackClicked', 'Back'
+          @button outlet: 'stopButton', class: 'btn', click: 'onStopClicked', 'Stop'
+      @div outlet: 'outputContainer', class: 'output-container'
 
   initialize: ->
     @emitter = new Emitter()
@@ -23,21 +23,7 @@ class OutputView extends View
     @converter = new Converter()
     @subscriptions = new CompositeDisposable()
 
-    @addClass('output-view')
-    @css('display','flex')
-
-    @setupTaskContainer()
-    @setupOutputContainer()
-
-  setupTaskContainer: ->
-    @taskContainer.addClass('task-container')
-    @taskListContainer.addClass('task-list-container')
-    @setupCustomTaskContainer()
-    @setupControlContainer()
-
-
-  setupOutputContainer: ->
-    @outputContainer.addClass('output-container')
+    @setupCustomTaskInput()
 
   setupTaskList: (tasks) ->
     for task in @tasks.sort()
@@ -49,16 +35,7 @@ class OutputView extends View
 
       @taskList.append(listItem)
 
-  setupControlContainer: ->
-    @controlContainer.addClass('control-container')
-    @backButton.addClass('btn')
-    @stopButton.addClass('btn')
-
-
-  setupCustomTaskContainer: ->
-    @customTaskContainer.addClass('custom-task-container')
-    @customTaskLabel.addClass('inline-block')
-
+  setupCustomTaskInput: ->
     customTaskInput = document.createElement('atom-text-editor')
     customTaskInput.setAttribute('mini', '')
     customTaskInput.getModel().setPlaceholderText('Press Enter to run')

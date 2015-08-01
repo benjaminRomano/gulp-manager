@@ -5,16 +5,14 @@ OutputView = require('./output-view')
 
 class GulpPaneView extends DockPaneView
   @content: ->
-    @div =>
+    @div class: 'gulp-pane', =>
       @subview 'gulpView', new GulpView()
       @subview 'outputView', new OutputView()
 
   initialize: ->
     super()
-    @setActive(true)
     @emitter = new Emitter()
     @subscriptions = new CompositeDisposable()
-    @addClass('gulp-pane')
     @gulpView.show()
     @outputView.hide()
     @activeView = @gulpView
