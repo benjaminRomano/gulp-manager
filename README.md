@@ -9,7 +9,6 @@ Manage gulpfiles from inside Atom.
 * ctrl-k ctrl-g create new gulp pane
 * ctrl-k ctrl-r: refreshes window
 * ctrl-k ctrl-c: closes window
-* ctrl-k ctrl-g: adds gulp-pane
 
 
 ![image](https://cloud.githubusercontent.com/assets/9221137/8978100/c7a2f7aa-3653-11e5-8d03-b0bd3b0b5824.png)
