@@ -1,6 +1,6 @@
 {View, $} = require('space-pen')
 {Emitter} = require('atom')
-GulpfileUtil = require('../gulpfile-util')
+FileFinderUtil = require('../file-finder-util')
 
 class GulpView extends View
   @content: ->
@@ -12,7 +12,7 @@ class GulpView extends View
 
   initialize: ->
     @emitter = new Emitter()
-    @gulpfileUtil = new GulpfileUtil()
+    @fileFinderUtil = new FileFinderUtil()
 
     @setupArgsContainer()
     @createGulpfileList()
@@ -23,18 +23,20 @@ class GulpView extends View
     @argsContainer.append(@argsInput)
 
   createGulpfileList: ->
-    @gulpfiles = @gulpfileUtil.getGulpfiles()
-
     @fileList.empty()
-    for gulpfile in @gulpfiles
-      filePath = @gulpfileUtil.createFilePath(gulpfile.dir, gulpfile.fileName)
-      listItem = $("<li><span class='icon icon-file-text'>#{filePath}</span></li>")
+    for filePath in @fileFinderUtil.findFiles(/^gulpfile\.[js|coffee]/i)
+      gulpfile =
+        path: filePath
+        relativePath: FileFinderUtil.getRelativePath(filePath)
+
+      listItem = $("<li><span class='icon icon-file-text'>#{gulpfile.relativePath}</span></li>")
 
       do (gulpfile, @emitter, @argsInput) ->
         listItem.first().on('click', ->
           gulpfile.args = argsInput.getModel().getText()
           emitter.emit('gulpfile:selected', gulpfile)
         )
+
       @fileList.append(listItem)
 
   onDidClickGulpfile: (callback) ->

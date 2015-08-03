@@ -1,6 +1,5 @@
 {View, $} = require('space-pen')
 {Emitter, CompositeDisposable} = require('atom')
-GulpfileUtil = require('../gulpfile-util')
 GulpfileRunner = require('../gulpfile-runner')
 Converter = require('ansi-to-html')
 
@@ -19,7 +18,6 @@ class OutputView extends View
 
   initialize: ->
     @emitter = new Emitter()
-    @gulpfileUtil = new GulpfileUtil()
     @converter = new Converter()
     @subscriptions = new CompositeDisposable()
 
@@ -49,7 +47,7 @@ class OutputView extends View
 
   addGulpTasks: ->
     @tasks = []
-    output = "fetching gulp tasks for #{@filePath}"
+    output = "fetching gulp tasks for #{@gulpfile.relativePath}"
     output += " with args: #{@gulpfile.args}" if @gulpfile.args
     @writeOutput(output, 'text-info')
 
@@ -82,9 +80,8 @@ class OutputView extends View
   onDidClickBack: (callback) ->
     return @emitter.on('backButton:clicked', callback)
 
-  setupGulpfileRunner: (@gulpfile) ->
-    @filePath = @gulpfileUtil.createFilePath(@gulpfile.dir, @gulpfile.fileName)
-    @gulpfileRunner = new GulpfileRunner(@filePath)
+  setupGulpfileRunner: (gulpfile) ->
+    @gulpfileRunner = new GulpfileRunner(@gulpfile.path)
 
   runTask: (task) ->
     @gulpfileRunner.runGulp(task,
@@ -112,7 +109,7 @@ class OutputView extends View
     @writeOutput("Exited with code #{code}",
       "#{if code then 'text-error' else 'text-success'}")
 
-  refresh: (gulpfile) ->
+  refresh: (@gulpfile) ->
     @destroy()
     @outputContainer.empty()
     @taskList.empty()

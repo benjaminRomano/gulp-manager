@@ -1,10 +1,7 @@
-GulpfileUtil = require('./gulpfile-util')
-{BufferedProcess} = require 'atom'
+{BufferedProcess} = require('atom')
 
 class GulpfileRunner
   constructor: (@filePath) ->
-    @gulpfileUtil = new GulpfileUtil()
-    return
 
   getGulpTasks: (onOutput, onError, onExit, args) ->
     @runGulp('--tasks-simple', onOutput, onError, onExit, args)
