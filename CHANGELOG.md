@@ -1,3 +1,6 @@
+## 0.2.1
+* Updated Gulp-Manager to use v0.1.0 of bottom-dock-service
+
 ## 0.2.0
 * Huge refactor
 * Uses bottom-dock to provide dock functionality

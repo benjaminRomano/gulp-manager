@@ -16,16 +16,16 @@
   },
   "dependencies": {
     "ansi-to-html": "^0.3.0",
-    "atom-bottom-dock": "^0.2.3",
+    "atom-bottom-dock": "^0.3.0",
     "space-pen": "^5.1.1"
   },
   "packageDependencies": {
-    "bottom-dock": "^0.1.0"
+    "bottom-dock": "^0.2.0"
   },
   "consumedServices": {
     "bottom-dock": {
       "versions": {
-        "^0.0.0": "consumeBottomDock"
+        "^0.1.0": "consumeBottomDock"
       }
     }
   }
