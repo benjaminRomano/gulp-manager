@@ -1,4 +1,7 @@
-## 0.2.1
+## 0.2.4
+* Fixed bug in refresh
+
+## 0.2.3
 * Updated Gulp-Manager to use v0.1.0 of bottom-dock-service
 
 ## 0.2.0

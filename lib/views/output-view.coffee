@@ -75,13 +75,14 @@ class OutputView extends View
       @writeOutput('Task Stopped', 'text-info')
 
   onBackClicked: ->
+    @gulpfile = null
     @emitter.emit('backButton:clicked')
 
   onDidClickBack: (callback) ->
     return @emitter.on('backButton:clicked', callback)
 
   setupGulpfileRunner: (gulpfile) ->
-    @gulpfileRunner = new GulpfileRunner(@gulpfile.path)
+    @gulpfileRunner = new GulpfileRunner(gulpfile.path)
 
   runTask: (task) ->
     @gulpfileRunner.runGulp(task,
@@ -109,19 +110,21 @@ class OutputView extends View
     @writeOutput("Exited with code #{code}",
       "#{if code then 'text-error' else 'text-success'}")
 
-  refresh: (@gulpfile) ->
+  refresh: (gulpfile) ->
     @destroy()
     @outputContainer.empty()
     @taskList.empty()
 
     if gulpfile
-      @setupGulpfileRunner(gulpfile)
+      @gulpfile = gulpfile
 
-    if @gulpfileRunner
+    if @gulpfile
+      @setupGulpfileRunner(@gulpfile)
       @addGulpTasks()
 
   destroy: ->
     @gulpfileRunner.destroy() if @gulpfileRunner
+    @gulpfileRunner = null
     @subscriptions.dispose() if @subscriptions
 
 module.exports = OutputView
