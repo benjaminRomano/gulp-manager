@@ -1,46 +1,40 @@
-{BufferedProcess} = require('atom')
+{BufferedProcess} = require 'atom'
 
 class GulpfileRunner
   constructor: (@filePath) ->
 
   getGulpTasks: (onOutput, onError, onExit, args) ->
-    @runGulp('--tasks-simple', onOutput, onError, onExit, args)
-    return
+    @runGulp '--tasks-simple', onOutput, onError, onExit, args
 
   runGulp: (task, stdout, stderr, exit, extraArgs) ->
-    if @process
-      @process.kill()
-      @process = null
+    @process?.kill()
+    @process = null
 
     args = ['--color', '--gulpfile', @filePath]
 
-    for arg in task.split(' ')
+
+    for arg in task.split ' '
       args.push(arg)
 
     if extraArgs
-      for arg in extraArgs.split(' ')
-        args.push(arg)
+      for arg in extraArgs.split ' '
+        args.push arg
 
     process.env.PATH = switch process.platform
       when 'win32' then process.env.PATH
       else "#{process.env.PATH}:/usr/local/bin"
 
-    options =
-      env: process.env
-
-    @process = new BufferedProcess({
+    @process = new BufferedProcess
       command: 'gulp'
       args: args
-      options: options
+      options:
+        env: process.env
       stdout: stdout
       stderr: stderr
       exit: exit
-    })
 
   destroy: ->
-    if @process
-      @process.kill()
-      @process = null
-    return
+    @process?.kill()
+    @process = null
 
 module.exports = GulpfileRunner

@@ -1,7 +1,7 @@
-{DockPaneView} = require('atom-bottom-dock')
-{Emitter, CompositeDisposable} = require('atom')
-GulpView = require('./gulp-view')
-OutputView = require('./output-view')
+{DockPaneView} = require 'atom-bottom-dock'
+{Emitter, CompositeDisposable} = require 'atom'
+GulpView = require './gulp-view'
+OutputView = require './output-view'
 
 class GulpPaneView extends DockPaneView
   @content: ->
@@ -17,25 +17,24 @@ class GulpPaneView extends DockPaneView
     @outputView.hide()
     @activeView = @gulpView
 
-    @subscriptions.add(@gulpView.onDidClickGulpfile(@switchToOutputView.bind(@)))
-    @subscriptions.add(@outputView.onDidClickBack(@switchToGulpView.bind(@)))
+    @subscriptions.add @gulpView.onDidClickGulpfile @switchToOutputView
+    @subscriptions.add @outputView.onDidClickBack @switchToGulpView
 
-  switchToGulpView: ->
+  switchToGulpView: =>
     @outputView.destroy()
     @outputView.hide()
     @gulpView.show()
     @activeView = @gulpView
 
-  switchToOutputView: (gulpfile) ->
+  switchToOutputView: (gulpfile) =>
     @gulpView.destroy()
     @gulpView.hide()
     @outputView.show()
     @activeView = @outputView
-    @outputView.refresh(gulpfile)
+    @outputView.refresh gulpfile
 
   refresh: ->
     @activeView.refresh()
-
 
   destroy: ->
     @outputView.destroy()

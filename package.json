@@ -25,7 +25,7 @@
   "consumedServices": {
     "bottom-dock": {
       "versions": {
-        "^0.1.0": "consumeBottomDock"
+        "^0.2.0": "consumeBottomDock"
       }
     }
   }

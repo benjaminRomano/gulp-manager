@@ -1,7 +1,7 @@
-{View, $} = require('space-pen')
-{Emitter, CompositeDisposable} = require('atom')
-GulpfileRunner = require('../gulpfile-runner')
-Converter = require('ansi-to-html')
+{View, $} = require 'space-pen'
+{Emitter, CompositeDisposable} = require 'atom'
+GulpfileRunner = require '../gulpfile-runner'
+Converter = require 'ansi-to-html'
 
 class OutputView extends View
   @content: ->
@@ -27,104 +27,96 @@ class OutputView extends View
     for task in @tasks.sort()
       listItem = $("<li><span class='icon icon-zap'>#{task}</span></li>")
 
-      do (task) => listItem.first().on('click', =>
-        @runTask(task)
-      )
+      do (task) => listItem.first().on 'click', =>
+        @runTask task
 
-      @taskList.append(listItem)
+      @taskList.append listItem
 
   setupCustomTaskInput: ->
-    customTaskInput = document.createElement('atom-text-editor')
-    customTaskInput.setAttribute('mini', '')
-    customTaskInput.getModel().setPlaceholderText('Press Enter to run')
+    customTaskInput = document.createElement 'atom-text-editor'
+    customTaskInput.setAttribute 'mini', ''
+    customTaskInput.getModel().setPlaceholderText 'Press Enter to run'
 
-    customTaskInput.addEventListener('keyup', (e) =>
-      #Run if user presses enter
-      @runTask(customTaskInput.getModel().getText()) if e.keyCode == 13
-    )
+    #Run if user presses enter
+    customTaskInput.addEventListener 'keyup', (e) =>
+      @runTask customTaskInput.getModel().getText() if e.keyCode == 13
 
-    @customTaskContainer.append(customTaskInput)
+    @customTaskContainer.append customTaskInput
 
   addGulpTasks: ->
     @tasks = []
     output = "fetching gulp tasks for #{@gulpfile.relativePath}"
     output += " with args: #{@gulpfile.args}" if @gulpfile.args
-    @writeOutput(output, 'text-info')
+    @writeOutput output, 'text-info'
 
     @taskList.empty()
 
     onTaskOutput = (output) =>
-      for task in output.split('\n') when task.length
-        @tasks.push(task)
+      @tasks = (task for task in output.split '\n' when task.length)
 
     onTaskExit = (code) =>
       if code is 0
+        @setupTaskList @tasks
 
-        @setupTaskList(@tasks)
-
-        @writeOutput("#{@tasks.length} tasks found", "text-info")
+        @writeOutput "#{@tasks.length} tasks found", "text-info"
       else
-        @onExit(code)
+        @onExit code
 
-    @gulpfileRunner.getGulpTasks(onTaskOutput.bind(@),
-      @onError.bind(@), onTaskExit.bind(@), @gulpfile.args)
+    @gulpfileRunner.getGulpTasks onTaskOutput, @onError, onTaskExit, @gulpfile.args
 
   onStopClicked: ->
     if @gulpfileRunner
       @gulpfileRunner.destroy()
-      @writeOutput('Task Stopped', 'text-info')
+      @writeOutput 'Task Stopped', 'text-info'
 
   onBackClicked: ->
     @gulpfile = null
-    @emitter.emit('backButton:clicked')
+    @emitter.emit 'backButton:clicked'
 
   onDidClickBack: (callback) ->
-    return @emitter.on('backButton:clicked', callback)
+    @emitter.on 'backButton:clicked', callback
 
   setupGulpfileRunner: (gulpfile) ->
-    @gulpfileRunner = new GulpfileRunner(gulpfile.path)
+    @gulpfileRunner = new GulpfileRunner gulpfile.path
 
   runTask: (task) ->
-    @gulpfileRunner.runGulp(task,
-      @onOutput.bind(@), @onError.bind(@), @onExit.bind(@))
+    @gulpfileRunner.runGulp task, @onOutput, @onError, @onExit
 
   writeOutput: (line, klass) ->
-    if line and line.length
+    return unless line?.length
 
-      el = $('<pre>')
-      el.append(line)
-      if klass
-        el.addClass(klass)
-      @outputContainer.append(el)
-      @outputContainer.scrollToBottom()
+    el = $('<pre>')
+    el.append line
+    el.addClass klass if klass
+    @outputContainer.append el
+    @outputContainer.scrollToBottom()
 
-  onOutput: (output) ->
-    for line in output.split('\n')
-      @writeOutput(@converter.toHtml(line))
+  onOutput: (output) =>
+    for line in output.split '\n'
+      @writeOutput @converter.toHtml(line)
 
-  onError: (output) ->
-    for line in output.split('\n')
-      @writeOutput(@converter.toHtml(line), 'text-error')
+  onError: (output) =>
+    for line in output.split '\n'
+      @writeOutput @converter.toHtml(line), 'text-error'
 
-  onExit: (code) ->
-    @writeOutput("Exited with code #{code}",
-      "#{if code then 'text-error' else 'text-success'}")
+  onExit: (code) =>
+    @writeOutput "Exited with code #{code}",
+      "#{if code then 'text-error' else 'text-success'}"
 
   refresh: (gulpfile) ->
     @destroy()
     @outputContainer.empty()
     @taskList.empty()
 
-    if gulpfile
-      @gulpfile = gulpfile
+    @gulpfile = gulpfile if gulpfile
 
     if @gulpfile
-      @setupGulpfileRunner(@gulpfile)
+      @setupGulpfileRunner @gulpfile
       @addGulpTasks()
 
   destroy: ->
-    @gulpfileRunner.destroy() if @gulpfileRunner
+    @gulpfileRunner?.destroy()
     @gulpfileRunner = null
-    @subscriptions.dispose() if @subscriptions
+    @subscriptions?.dispose()
 
 module.exports = OutputView
