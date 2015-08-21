@@ -10,5 +10,4 @@ Manage gulpfiles from inside Atom.
 * ctrl-k ctrl-r: refreshes window
 * ctrl-k ctrl-c: closes window
 
-
-![image](https://cloud.githubusercontent.com/assets/9221137/8978100/c7a2f7aa-3653-11e5-8d03-b0bd3b0b5824.png)
+![image](https://cloud.githubusercontent.com/assets/9221137/9418069/e270ae40-4816-11e5-863b-5a48d653987d.png)

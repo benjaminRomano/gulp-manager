@@ -1,3 +1,7 @@
+## 0.2.5
+* Minor style changes
+* Moved refresh button into toolbar 
+
 ## 0.2.4
 * Fixed bug in refresh
 

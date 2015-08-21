@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "ansi-to-html": "^0.3.0",
-    "atom-bottom-dock": "^0.3.0",
+    "atom-bottom-dock": "^0.4.0",
     "space-pen": "^5.1.1"
   },
   "packageDependencies": {
