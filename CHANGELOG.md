@@ -1,3 +1,6 @@
+## 0.2.7
+* Added more error handling in file-finder-util
+
 ## 0.2.6
 * Style changes
 

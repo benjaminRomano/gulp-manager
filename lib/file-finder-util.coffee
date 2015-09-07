@@ -16,8 +16,12 @@ class FileFinderUtil
   findFiles: (regex) ->
     projPaths = atom.project.getPaths()
 
-    foundFiles = projPaths.filter((p) -> p != 'atom://config' and p!= 'atom://.atom/config')
-      .map((path) -> findFilesHelper path, regex)
+    foundFiles = projPaths.filter((p) ->
+      try
+        fs.statSync(p).isDirectory()
+      catch
+        false
+    ).map((path) -> findFilesHelper path, regex)
       .reduce((results, files) ->
         results.concat files
       , [])
@@ -32,8 +36,9 @@ class FileFinderUtil
 
       else if entry.indexOf('node_modules') is -1
         abs = path.join cwd, entry
-        if fs.statSync(abs).isDirectory()
-          dirs.push abs
+        try
+          if fs.statSync(abs).isDirectory()
+            dirs.push abs
 
     for dir in dirs
       if foundFiles = findFilesHelper dir, regex
