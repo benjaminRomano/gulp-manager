@@ -11,9 +11,38 @@
   flex-direction: column;
 
   .toolbar {
-    flex: 0 0 auto;
+    select {
+      min-width: 200px;
+      font-size: @font-size;
+      margin: 2px 0 0 5px;
+      display: inline-block;
+      width: auto;
+      padding: 0;
+      height: 100%;
+      color: @text-color;
+      border-color: @button-border-color;
+      background-color: @button-background-color;
+      &:hover,
+      &:focus {
+        box-shadow: none;
+        background-color: @button-background-color-hover;
+      }
+    }
+
+    .args-input-label {
+      margin: 0 4px 0 4px;
+    }
+
+    .text-editor {
+      line-height: @component-line-height - 3px;
+      height: @component-line-height;
+      width: 200px;
+      vertical-align: middle;
+      display: inline-block;
+    }
 
     .refresh-button {
+      padding-right: 6px;
       color: @text-color-info;
 
       &:hover {
@@ -25,6 +54,31 @@
       }
     }
 
+    .stop-button {
+      padding-right: 4px;
+      color: @text-color-error;
+
+      &:hover {
+        color: @background-color-error;
+      }
+
+      &:active {
+        color: @text-color-selected;
+      }
+    }
+
+    .clear-button {
+      color: @text-color-warning;
+      padding-right: 6px;
+
+      &:hover {
+        color: @background-color-warning;
+      }
+
+      &:active {
+        color: @text-color-selected;
+      }
+    }
   }
 
   ul {
@@ -73,6 +127,7 @@
 
       span {
         font-size: 12px;
+        padding-right: 4px;
       }
     }
   }

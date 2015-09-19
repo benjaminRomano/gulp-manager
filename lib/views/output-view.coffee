@@ -13,9 +13,6 @@ class OutputView extends View
             @ul outlet: 'taskList'
           @div outlet: 'customTaskContainer', class: 'custom-task-container', =>
             @span outlet: 'customTaskLabel', class: 'inline-block', 'Custom Task:'
-          @div outlet: 'controlContainer', class: 'control-container', =>
-            @button outlet: 'backButton', class: 'btn', click: 'onBackClicked', 'Back'
-            @button outlet: 'stopButton', class: 'btn', click: 'onStopClicked', 'Stop'
         @div outlet: 'outputContainer', class: 'output-container'
 
   initialize: ->
@@ -66,23 +63,11 @@ class OutputView extends View
 
     @gulpfileRunner.getGulpTasks onTaskOutput, @onError, onTaskExit, @gulpfile.args
 
-  onStopClicked: ->
-    if @gulpfileRunner
-      @gulpfileRunner.destroy()
-      @writeOutput 'Task Stopped', 'text-info'
-
-  onBackClicked: ->
-    @gulpfile = null
-    @emitter.emit 'backButton:clicked'
-
-  onDidClickBack: (callback) ->
-    @emitter.on 'backButton:clicked', callback
-
   setupGulpfileRunner: (gulpfile) ->
     @gulpfileRunner = new GulpfileRunner gulpfile.path
 
   runTask: (task) ->
-    @gulpfileRunner.runGulp task, @onOutput, @onError, @onExit
+    @gulpfileRunner?.runGulp task, @onOutput, @onError, @onExit
 
   writeOutput: (line, klass) ->
     return unless line?.length
@@ -105,16 +90,26 @@ class OutputView extends View
     @writeOutput "Exited with code #{code}",
       "#{if code then 'text-error' else 'text-success'}"
 
+  stop: ->
+    if @gulpfileRunner
+      @gulpfileRunner.destroy()
+      @writeOutput('Task Stopped', 'text-info')
+
+  clear: ->
+    @outputContainer.empty()
+
   refresh: (gulpfile) ->
     @destroy()
     @outputContainer.empty()
     @taskList.empty()
 
-    @gulpfile = gulpfile if gulpfile
+    unless gulpfile
+      @gulpfile = null
+      return
 
-    if @gulpfile
-      @setupGulpfileRunner @gulpfile
-      @addGulpTasks()
+    @gulpfile = gulpfile
+    @setupGulpfileRunner @gulpfile
+    @addGulpTasks()
 
   destroy: ->
     @gulpfileRunner?.destroy()

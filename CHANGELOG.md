@@ -1,3 +1,7 @@
+## 0.2.8
+* merged output and grunt-view
+* Added clear button
+
 ## 0.2.7
 * Added more error handling in file-finder-util
 
