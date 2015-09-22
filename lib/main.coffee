@@ -4,6 +4,12 @@
 GulpPane = require './views/gulp-pane'
 
 module.exports =
+  config:
+    removeOutputStyling:
+      title: 'Remove output styling'
+      type: 'boolean'
+      default: false
+
   activate: (state) ->
     @subscriptions = new CompositeDisposable()
     @gulpPanes = []

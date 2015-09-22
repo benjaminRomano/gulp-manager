@@ -1,3 +1,6 @@
+## 0.2.9
+* Added setting to show/hide output styling
+
 ## 0.2.8
 * merged output and grunt-view
 * Added clear button

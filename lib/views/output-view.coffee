@@ -74,6 +74,10 @@ class OutputView extends View
 
     el = $('<pre>')
     el.append line
+
+    if atom.config.get('gulp-manager.removeOutputStyling')
+      el.find('span').removeAttr('style')
+
     el.addClass klass if klass
     @outputContainer.append el
     @outputContainer.scrollToBottom()
