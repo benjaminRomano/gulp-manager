@@ -17,7 +17,7 @@ class OutputView extends View
 
   initialize: ->
     @emitter = new Emitter()
-    @converter = new Converter()
+    @converter = new Converter fg: $('<span>').css('color')
     @subscriptions = new CompositeDisposable()
 
     @setupCustomTaskInput()
@@ -74,9 +74,6 @@ class OutputView extends View
 
     el = $('<pre>')
     el.append line
-
-    if atom.config.get('gulp-manager.removeOutputStyling')
-      el.find('span').removeAttr('style')
 
     el.addClass klass if klass
     @outputContainer.append el

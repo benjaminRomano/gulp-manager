@@ -1,3 +1,6 @@
+## 0.2.10
+* Better fix for bad output styling
+
 ## 0.2.9
 * Added setting to show/hide output styling
 
