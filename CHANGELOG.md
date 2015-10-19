@@ -1,3 +1,6 @@
+## 0.2.11
+* Changed output window to use font-size set by theme
+
 ## 0.2.10
 * Better fix for bad output styling
 
