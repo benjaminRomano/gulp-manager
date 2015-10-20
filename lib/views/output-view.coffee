@@ -13,7 +13,7 @@ class OutputView extends View
             @ul outlet: 'taskList'
           @div outlet: 'customTaskContainer', class: 'custom-task-container', =>
             @span outlet: 'customTaskLabel', class: 'inline-block', 'Custom Task:'
-        @div outlet: 'outputContainer', class: 'output-container'
+        @div outlet: 'outputContainer', class: 'output-container native-key-bindings', tabindex: -1
 
   initialize: ->
     @emitter = new Emitter()

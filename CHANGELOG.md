@@ -1,3 +1,6 @@
+## 0.2.12
+* Made output text copy-and-pastable
+
 ## 0.2.11
 * Changed output window to use font-size set by theme
 
