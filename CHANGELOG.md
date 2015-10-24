@@ -1,3 +1,6 @@
+## 0.2.13
+* Added error handling to file-finder-util
+
 ## 0.2.12
 * Made output text copy-and-pastable
 
