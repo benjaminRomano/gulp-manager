@@ -1,3 +1,6 @@
+## 0.2.14
+* Fixed custom tasks container being hidden if too many tasks.
+
 ## 0.2.13
 * Added error handling to file-finder-util
 
