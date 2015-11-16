@@ -1,3 +1,6 @@
+## 0.2.15
+* Fixed broken stylings due to Atom 1.2.0 Release
+
 ## 0.2.14
 * Fixed custom tasks container being hidden if too many tasks.
 
