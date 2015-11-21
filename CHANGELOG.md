@@ -1,3 +1,6 @@
+## 0.2.17
+* Fixed bottom of output getting cut off when scrollbar shown
+
 ## 0.2.15
 * Fixed broken stylings due to Atom 1.2.0 Release
 
