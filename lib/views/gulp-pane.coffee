@@ -32,7 +32,7 @@ class GulpPaneView extends DockPaneView
   getGulpfiles: ->
     gulpfiles = []
 
-    for filePath in @fileFinderUtil.findFiles /^gulpfile\.[js|coffee]/i
+    for filePath in @fileFinderUtil.findFiles /^gulpfile\.[babel.js|js|coffee]/i
       gulpfiles.push
         path: filePath
         relativePath: FileFinderUtil.getRelativePath filePath

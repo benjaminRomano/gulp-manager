@@ -1,3 +1,6 @@
+## 0.2.18
+* Added support for gulpfile.babel.js
+
 ## 0.2.17
 * Fixed bottom of output getting cut off when scrollbar shown
 
