@@ -15,10 +15,25 @@ class ControlsView extends DockPaneView
     super()
     @emitter = new Emitter()
     @subscriptions = new CompositeDisposable()
+    
     @fileSelector.change(@onGulpfileSelected)
 
+    @setupTooltips()
     @setupCustomTaskInput()
-
+    
+  setupTooltips: ->
+    config =
+      trigger: 'hover focus'
+      delay:
+        show: 0
+        
+    stopConfig = $.extend true, title: 'Stop current task', config
+    refreshConfig = $.extend true, title: 'Refetch gulp tasks', config
+    clearConfig = $.extend true, title: 'Clear log', config
+        
+    atom.tooltips.add @stopButton, stopConfig
+    atom.tooltips.add @refreshButton, refreshConfig
+    atom.tooltips.add @clearButton, clearConfig
 
   setupCustomTaskInput: ->
     @argsInput = document.createElement 'atom-text-editor'

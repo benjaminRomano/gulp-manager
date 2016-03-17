@@ -1,3 +1,7 @@
+## 0.2.19
+* Added isIntial param when adding new pane.
+* Added tooltips to buttons
+
 ## 0.2.18
 * Added support for gulpfile.babel.js
 

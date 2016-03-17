@@ -21,9 +21,9 @@ module.exports =
       'gulp-manager:add': => @add()
 
   consumeBottomDock: (@bottomDock) ->
-    @add()
+    @add true
 
-  add: ->
+  add: (isInitial) ->
     if @bottomDock
       newPane = new GulpPane()
       @gulpPanes.push newPane
@@ -33,7 +33,7 @@ module.exports =
         id: newPane.getId()
         active: newPane.isActive()
 
-      @bottomDock.addPane newPane, 'Gulp'
+      @bottomDock.addPane newPane, 'Gulp', isInitial
 
   deactivate: ->
     @subscriptions.dispose()
